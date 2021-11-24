@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     app:layoutDescription="@xml/activity_main_scene"
+    android:padding="15dp"
     tools:context=".MainActivity">
 
         <ImageView
@@ -48,16 +49,25 @@
             android:id="@+id/btn_login"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:backgroundTint="#666362"
             android:text="로그인 하기"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_signin"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#666362"
+            android:text="계정 생성"
             android:textSize="14sp" />
 
         <Button
             android:id="@+id/btn_guest"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="12dp"
             android:backgroundTint="#666362"
             android:text="게스트로 플레이"
             android:textSize="14sp"/>
