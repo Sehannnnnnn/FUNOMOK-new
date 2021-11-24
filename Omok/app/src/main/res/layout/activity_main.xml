@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    app:layoutDescription="@xml/activity_main_scene"
+    tools:context=".MainActivity">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/title_img"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            app:srcCompat="@drawable/main_img" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="아이디"
+            android:textSize="12sp" />
+        <EditText
+            android:id="@+id/textID"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="ID"/>
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="비밀번호"
+            android:textSize="12sp" />
+        <EditText
+            android:id="@+id/textPassword"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="password"
+            android:inputType="textPassword"/>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#666362"
+            android:text="로그인 하기"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_guest"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="#666362"
+            android:text="게스트로 플레이"
+            android:textSize="14sp"/>
+
+</LinearLayout>
