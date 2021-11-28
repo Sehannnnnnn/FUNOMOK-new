@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "284217690660",
+    "project_id": "fun-omok-cb2b2",
+    "storage_bucket": "fun-omok-cb2b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284217690660:android:6b90befc4b28907db126b1",
+        "android_client_info": {
+          "package_name": "com.example.omok"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "284217690660-t7qb7qmsjgtbd0ecla3qqu9pvrt41cd6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzJWdtKuwWBT0nAi6SPRaMxwjs69_rvZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "284217690660-t7qb7qmsjgtbd0ecla3qqu9pvrt41cd6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
