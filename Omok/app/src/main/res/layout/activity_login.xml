@@ -7,8 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     app:layoutDescription="@xml/activity_main_scene"
-    android:padding="15dp"
-    tools:context=".MainActivity">
+    android:padding="15dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -22,32 +21,32 @@
             app:srcCompat="@drawable/main_img" />
 
         <TextView
-            android:layout_width="200dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:text="아이디"
+            android:text="이메일"
             android:textSize="12sp" />
         <EditText
-            android:id="@+id/textID"
-            android:layout_width="200dp"
+            android:id="@+id/textEmail"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:hint="ID"/>
 
         <TextView
-            android:layout_width="200dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="비밀번호"
             android:textSize="12sp" />
         <EditText
             android:id="@+id/textPassword"
-            android:layout_width="200dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:hint="password"
             android:inputType="textPassword"/>
 
         <Button
-            android:id="@+id/btn_login"
-            android:layout_width="200dp"
+            android:id="@+id/btnLogin"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="#666362"
@@ -55,17 +54,17 @@
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/btn_signin"
-            android:layout_width="200dp"
+            android:id="@+id/btnSignUp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:backgroundTint="#666362"
-            android:text="계정 생성"
+            android:text="회원 가입"
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/btn_guest"
-            android:layout_width="200dp"
+            android:id="@+id/btnGuest"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:backgroundTint="#666362"
