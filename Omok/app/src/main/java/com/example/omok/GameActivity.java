@@ -16,14 +16,35 @@ import android.widget.Toast;
 public class GameActivity extends AppCompatActivity {
     GridLayout omokstage;
     // player = "white" or "black"
-    String player = "white";
-
+    String player = "black";
+    String playerID = "sdasluveks";
+    int turn = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
         omokstage = (GridLayout) findViewById(R.id.omokstage);
+
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("message");
+//
+//        myRef.setValue("No Hello, World!");
+//
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//                String value = dataSnapshot.getValue(String.class);
+//                Log.d(TAG, "Value is: " + value);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                // Failed to read value
+//                Log.w(TAG, "Failed to read value.", error.toException());
+//            }
+//        });
 
 
         //오목알 크기 지정
@@ -79,6 +100,7 @@ public class GameActivity extends AppCompatActivity {
                             //오목판에 바둑돌 올리기
                             putstone(v, player, stoneColor);
                             //오목 데이터 수정
+                            turn = turn + 1;
                             change_omokArray(v, omokArray);
                             Log.d("omokArrayChanged", java.util.Arrays.deepToString(omokArray));
                             //오목데이터 Intent로 해서 CheckVictory.Activity로 보내면될듯.
@@ -87,9 +109,9 @@ public class GameActivity extends AppCompatActivity {
                 });
             }
         }
-
-
     }
+
+
 
     //돌 넣는 애니메이션
     private void putstone(View v, String player, String stoneColor) {
@@ -112,6 +134,9 @@ public class GameActivity extends AppCompatActivity {
         int changedPointY = stoneChanged_cor%15;
         if (player == "black") {
             omokArray[changedPointX][changedPointY] = 1;
+            OmokSignalDTO omokSignalDTO = new OmokSignalDTO(turn, changedPointX, changedPointY, 1, playerID);
+            Log.d("omokSignalCreated", omokSignalDTO.getSignal_str());
+            //Firebase로 송신
         }
         else if (player == "white") {
             omokArray[changedPointX][changedPointY] = 2;

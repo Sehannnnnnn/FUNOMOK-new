@@ -83,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     private void loginUser(String email, String password) {
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
