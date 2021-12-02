@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -36,6 +37,8 @@ public class GameActivity extends AppCompatActivity {
     String playerID = "sdasluveks";
     int turn = 0;
     private DatabaseReference mDatabase;
+    Intent intent = getIntent();
+    String ROOM_NAME = intent.getStringExtra("ROOMNAME");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         omokstage = (GridLayout) findViewById(R.id.omokstage);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/omoklove");
+        mDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/"+ROOM_NAME);
 
         //오목알 크기 지정
         final int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 26, getResources().getDisplayMetrics());
@@ -142,11 +145,10 @@ public class GameActivity extends AppCompatActivity {
             omokArray[changedPointX][changedPointY] = 2;
         }
     }
-    String ROOMNAME = "OmokRoom";
 
     //데이터베이스에 따라 오목판 변경하기 (작업중)
     private void read_omoksignal() {
-        mDatabase.child("chat").child(ROOMNAME).addChildEventListener(new ChildEventListener() {
+        mDatabase.child(ROOM_NAME).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 OmokSignalDTO omokSignal = dataSnapshot.getValue(OmokSignalDTO.class);
