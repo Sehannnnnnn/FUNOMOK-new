@@ -29,9 +29,7 @@ public class GameActivity extends AppCompatActivity {
         //오목알 크기 지정
         final int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 26, getResources().getDisplayMetrics());
         final int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 26, getResources().getDisplayMetrics());
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                width, height
-        );
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
 
 
         int omokArray[][] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -50,13 +48,14 @@ public class GameActivity extends AppCompatActivity {
                             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
-        //오목판 출력
+
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                 View _stone = (View) View.inflate(GameActivity.this, R.layout.omok_block, null);
                 ImageButton stonecontainer = (ImageButton) _stone.findViewById(R.id.Img_Stone);
                 stonecontainer.setId(i*15+j);
                 stonecontainer.setTag('X');
+
                 if (omokArray[i][j] == 1) {
                     stonecontainer.setTag("B");
                     stonecontainer.setBackground(ContextCompat.getDrawable(this, R.drawable.blackstone));
@@ -67,7 +66,10 @@ public class GameActivity extends AppCompatActivity {
                     stonecontainer.setTag("X");
                     stonecontainer.setBackground(ContextCompat.getDrawable(this, R.drawable.nostone));
                 }
-                omokstage.addView(_stone, params);
+
+                omokstage.addView(_stone, params);  //GridView 순서대로 정렬(0-225)
+
+                // stonecotainer(이미지버튼) 마다 리스너를 설정
                 stonecontainer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -85,6 +87,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                     }
                 });
+                //데이터받는 리스너 화면 띄워주기
             }
         }
 

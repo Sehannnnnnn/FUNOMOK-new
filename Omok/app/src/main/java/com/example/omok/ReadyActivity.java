@@ -27,8 +27,8 @@ public class ReadyActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(ReadyActivity.this, GameActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(ReadyActivity.this, RoomActivity.class);
+                startActivity(intent);
             }
         });
 
