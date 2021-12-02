@@ -25,8 +25,7 @@ public class RoomActivity extends AppCompatActivity {
     private Button btnCreate;
     private ListView room_list;
 
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +55,10 @@ public class RoomActivity extends AppCompatActivity {
         room_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                 FirebaseDatabase database = FirebaseDatabase.getInstance();
+                 DatabaseReference myRef = database.getReference("omokRoom");
+                 myRef.child(roomList.get(i)).setValue("");
 
-                databaseReference.child("omokRoom").setValue(roomList.get(i));
 
                 Intent intent=new Intent(RoomActivity.this,GameActivity.class);
                 intent.putExtra("roomName",roomList);
