@@ -48,12 +48,20 @@ public class OmokSignalDTO {
     public void setColor_int(int color_int) {
         Color_int = color_int;
     }
-    public String getSignal_str() {
-        return "{\n"+
-                "turnCount:'"+Turn+"'\n"+
-                "color:'"+Color_str+"'\n" +
-                "x:'"+Point_x+"'\n"+
-                "y:'"+Point_y+"'\n"+
-                "}";
+
+    public String getColor_str() {
+        return Color_str;
+    }
+
+    public void setColor_str(String color_str) {
+        Color_str = color_str;
+    }
+
+    public String getPlayerId() {
+        return PlayerId;
+    }
+
+    public void setPlayerId(String playerId) {
+        PlayerId = playerId;
     }
 }

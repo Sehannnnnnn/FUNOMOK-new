@@ -1,5 +1,6 @@
 package com.example.omok;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -12,6 +13,21 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class GameActivity extends AppCompatActivity {
     GridLayout omokstage;
@@ -19,33 +35,15 @@ public class GameActivity extends AppCompatActivity {
     String player = "black";
     String playerID = "sdasluveks";
     int turn = 0;
+    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         omokstage = (GridLayout) findViewById(R.id.omokstage);
 
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef = database.getReference("message");
-//
-//        myRef.setValue("No Hello, World!");
-//
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                String value = dataSnapshot.getValue(String.class);
-//                Log.d(TAG, "Value is: " + value);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-//                Log.w(TAG, "Failed to read value.", error.toException());
-//            }
-//        });
-
+        mDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/omoklove");
 
         //오목알 크기 지정
         final int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 26, getResources().getDisplayMetrics());
@@ -53,7 +51,6 @@ public class GameActivity extends AppCompatActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 width, height
         );
-
 
         int omokArray[][] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -70,6 +67,7 @@ public class GameActivity extends AppCompatActivity {
                             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+
 
         //오목판 출력
         for (int i = 0; i < 15; i++) {
@@ -102,7 +100,8 @@ public class GameActivity extends AppCompatActivity {
                             //오목 데이터 수정
                             turn = turn + 1;
                             change_omokArray(v, omokArray);
-                            Log.d("omokArrayChanged", java.util.Arrays.deepToString(omokArray));
+                            //gamelog hashmap에 signal data 저장
+                            Log.d("omokArrayChanged", Arrays.deepToString(omokArray));
                             //오목데이터 Intent로 해서 CheckVictory.Activity로 보내면될듯.
                         }
                     }
@@ -112,9 +111,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-
     //돌 넣는 애니메이션
     private void putstone(View v, String player, String stoneColor) {
+        int num = v.getId();
         switch (player) {
             case "black":
                 v.setBackground(ContextCompat.getDrawable(this, R.drawable.blackstone));
@@ -127,20 +126,56 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    //바둑판 데이터 수정
-    private int[][] change_omokArray(View v, int[][] omokArray) {
+    //바둑판 데이터 전송
+    private void change_omokArray(View v, int[][] omokArray) {
         int stoneChanged_cor = v.getId();
         int changedPointX = stoneChanged_cor/15;
         int changedPointY = stoneChanged_cor%15;
+
         if (player == "black") {
             omokArray[changedPointX][changedPointY] = 1;
-            OmokSignalDTO omokSignalDTO = new OmokSignalDTO(turn, changedPointX, changedPointY, 1, playerID);
-            Log.d("omokSignalCreated", omokSignalDTO.getSignal_str());
+            OmokSignalDTO omokSignal = new OmokSignalDTO(turn, changedPointX, changedPointY, 1, playerID);
             //Firebase로 송신
+            mDatabase.setValue(omokSignal);
         }
         else if (player == "white") {
             omokArray[changedPointX][changedPointY] = 2;
         }
-        return omokArray;
     }
+    String ROOMNAME = "OmokRoom";
+
+    //데이터베이스에 따라 오목판 변경하기 (작업중)
+    private void read_omoksignal() {
+        mDatabase.child("chat").child(ROOMNAME).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                OmokSignalDTO omokSignal = dataSnapshot.getValue(OmokSignalDTO.class);
+
+                Log.e("LOG", "s:"+s);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                OmokSignalDTO omokSignal = dataSnapshot.getValue(OmokSignalDTO.class);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
 }
