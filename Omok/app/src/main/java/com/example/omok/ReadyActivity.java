@@ -7,20 +7,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Random;
 
 public class ReadyActivity extends AppCompatActivity {
     private TextView textUser;
     private Button btnStart,btnSetting,btnEnd;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +23,6 @@ public class ReadyActivity extends AppCompatActivity {
         btnStart=(Button) findViewById(R.id.btnStart);
         btnSetting=(Button) findViewById(R.id.btnSetting);
         btnEnd=(Button) findViewById(R.id.btnEnd);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String email = user.getEmail();
-            String userID=email.substring(0,email.indexOf("@"));
-            textUser.setText(userID);
-        } else {
-        }
-
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +50,4 @@ public class ReadyActivity extends AppCompatActivity {
         });
 
     }
-
-
-
 }

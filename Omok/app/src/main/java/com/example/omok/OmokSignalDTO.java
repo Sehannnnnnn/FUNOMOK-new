@@ -1,20 +1,13 @@
 package com.example.omok;
 
 public class OmokSignalDTO {
-    int Turn;
-    int Point_x;
-    int Point_y;
-    int Color_int;
-    String Color_str;
-    String PlayerId;
+    private int Turn;
+    private int Point_x;
+    private int Point_y;
+    private String Color;
+    private String PlayerId;
 
-    public OmokSignalDTO(int turn, int point_x, int point_y, int color_int, String playerId) {
-        Turn = turn;
-        Point_x = point_x;
-        Point_y = point_y;
-        Color_int = color_int;
-        Color_str = (Color_int == 1) ? "Black" : "White";
-        PlayerId = playerId;
+    public OmokSignalDTO() {
     }
 
     public int getTurn() {
@@ -41,20 +34,12 @@ public class OmokSignalDTO {
         Point_y = point_y;
     }
 
-    public int getColor_int() {
-        return Color_int;
+    public String getColor() {
+        return Color;
     }
 
-    public void setColor_int(int color_int) {
-        Color_int = color_int;
-    }
-
-    public String getColor_str() {
-        return Color_str;
-    }
-
-    public void setColor_str(String color_str) {
-        Color_str = color_str;
+    public void setColor(String color) {
+        Color = color;
     }
 
     public String getPlayerId() {

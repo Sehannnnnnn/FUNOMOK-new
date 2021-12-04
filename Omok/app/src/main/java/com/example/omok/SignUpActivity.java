@@ -2,7 +2,6 @@ package com.example.omok;
 
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -18,8 +17,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
@@ -48,7 +45,6 @@ public class SignUpActivity extends AppCompatActivity {
                 String pw = edtPW.getText().toString();
                 String pwCheck = edtPWCheck.getText().toString();
                 String nickname = edtNickname.getText().toString();
-
 
                 if (!email.equals("") && !pw.equals("") && !pwCheck.equals("") && !nickname.equals("")) {
                     if(!Patterns.EMAIL_ADDRESS.matcher(email).matches() && pw.length()<6){
@@ -81,10 +77,8 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 회원가입 성공시
-
                             Toast.makeText(SignUpActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                             finish();
-
                         } else {
                             // 계정이 중복된 경우
                             Toast.makeText(SignUpActivity.this, "이미 존재하는 계정입니다", Toast.LENGTH_SHORT).show();
