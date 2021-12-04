@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,17 +37,18 @@ public class GameActivity extends AppCompatActivity {
     String player = "black";
     String playerID = "sdasluveks";
     int turn = 0;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase;
-    Intent intent = getIntent();
-    String ROOM_NAME = intent.getStringExtra("ROOMNAME");
-
+    Intent inIntent = getIntent();
+    ArrayList<String> receiveArr= inIntent.getStringArrayListExtra("ROOMNAME");
+    int receiveIndex=inIntent.getIntExtra("ROOMINDEX",0);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         omokstage = (GridLayout) findViewById(R.id.omokstage);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/"+ROOM_NAME);
+        mDatabase = database.getReference("omokRoom");
 
         //오목알 크기 지정
         final int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 26, getResources().getDisplayMetrics());
@@ -148,7 +150,7 @@ public class GameActivity extends AppCompatActivity {
 
     //데이터베이스에 따라 오목판 변경하기 (작업중)
     private void read_omoksignal() {
-        mDatabase.child(ROOM_NAME).addChildEventListener(new ChildEventListener() {
+        mDatabase.child(receiveArr.get(receiveIndex)).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 OmokSignalDTO omokSignal = dataSnapshot.getValue(OmokSignalDTO.class);
