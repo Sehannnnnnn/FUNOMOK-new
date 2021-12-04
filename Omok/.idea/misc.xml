@@ -17,10 +17,13 @@
         <entry key="app/src/main/res/layout/activity_room.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.453125" />
+        <entry key="app/src/main/res/layout/lose_fragment.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/omok_block.xml" value="2.5" />
         <entry key="app/src/main/res/layout/omok_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/second_main.xml" value="0.3104166666666667" />
         <entry key="app/src/main/res/layout/third_main.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/win_fragment.xml" value="0.1890625" />
+        <entry key="app/src/main/res/layout/win_toast.xml" value="0.203125" />
       </map>
     </option>
   </component>
