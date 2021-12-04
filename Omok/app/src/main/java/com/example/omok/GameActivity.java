@@ -137,7 +137,8 @@ public class GameActivity extends AppCompatActivity {
                     putstone(stoneChanged, color);
                     change_omokArray(omokArray, x, y, color);
                     Log.d("omokArrayChanged", Arrays.deepToString(omokArray));
-                    Boolean isWin = checkVictory(omokArray, x, y);
+                    boolean isWin = checkVictory(omokArray, x, y);
+                    Log.d("isWin", Boolean.toString(isWin));
                     if (isWin == true) {
                         Toast.makeText(getApplicationContext(), "승부가 났습니다", Toast.LENGTH_SHORT).show();
                     }

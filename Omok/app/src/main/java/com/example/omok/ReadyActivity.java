@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class ReadyActivity extends AppCompatActivity {
     private TextView textUser;
     private Button btnStart,btnSetting,btnEnd;
@@ -23,6 +26,14 @@ public class ReadyActivity extends AppCompatActivity {
         btnStart=(Button) findViewById(R.id.btnStart);
         btnSetting=(Button) findViewById(R.id.btnSetting);
         btnEnd=(Button) findViewById(R.id.btnEnd);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            String userID=email.substring(0,email.indexOf("@"));
+            textUser.setText(userID);
+        } else {
+        }
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
