@@ -16,9 +16,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Random;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText userEmail, userPW;
-    private Button btnLogin, btnSignUp, btnGuest;
+    private Button btnLogin, btnSignUp;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
@@ -33,21 +35,14 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
-        btnGuest = (Button) findViewById(R.id.btnGuest);
         userEmail = (EditText) findViewById(R.id.textEmail);
         userPW = (EditText) findViewById(R.id.textPassword);
 
-        btnGuest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, ReadyActivity.class);
-                startActivity(intent);
-            }
-        });
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
