@@ -31,13 +31,15 @@ import java.util.Arrays;
 
 public class GameActivity extends AppCompatActivity {
     GridLayout omokstage;
+    LinearLayout myPart, yourPart;
     // player = "white" or "black"
-    String color = "white";
-    String playerID = "sdasluveks";
-    int turn = 0;
+    String myColor;
+    String playerID = "yyyyyy";
+    int turn;
     DatabaseReference logDatabase, RoomDatabase;
     Intent intent;
-    String ROOM_NAME;
+    String ROOM_NAME, CREATE_ROOM_NAME;
+
 
     int omokArray[][] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -59,18 +61,34 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        turn = 0;
         omokstage = (GridLayout) findViewById(R.id.omokstage);
+        yourPart = (LinearLayout) findViewById(R.id.container_oppose);
+        myPart = (LinearLayout) findViewById(R.id.container_my);
 
         intent = getIntent();
-        ROOM_NAME = intent.getStringExtra("ROOMNAME");
-        logDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/gamelog");
-        RoomDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/gameinfo");
+        if(intent.getStringExtra("ROOMNAME")!=null){
+            ROOM_NAME = intent.getStringExtra("ROOMNAME");
+            logDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/gamelog");
+            RoomDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/gameinfo");
+            myColor="white";
+            yourPart.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
+        }
+        if(intent.getStringExtra("createRoomName")!=null){
+            CREATE_ROOM_NAME = intent.getStringExtra("createRoomName");
+            logDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + CREATE_ROOM_NAME + "/gamelog");
+            RoomDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + CREATE_ROOM_NAME + "/gameinfo");
+            myColor="black";
+            myPart.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
+        }
 
 
         //오목알 크기 지정
         final int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 26, getResources().getDisplayMetrics());
         final int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 26, getResources().getDisplayMetrics());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
+        //black 일 때
+
 
 
         //오목판 생성
@@ -91,7 +109,6 @@ public class GameActivity extends AppCompatActivity {
                     stonecontainer.setTag("X");
                     stonecontainer.setBackground(ContextCompat.getDrawable(this, R.drawable.nostone));
                 }
-
                 omokstage.addView(_stone, params);  //GridView 순서대로 정렬(0-225)
                 final int final_i = i;
                 final int final_j = j;
@@ -104,7 +121,6 @@ public class GameActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "돌을 놓을 수 없다.", Toast.LENGTH_SHORT).show();
                         } else {
                             //오목판에 바둑돌 올리기
-                            turn = turn + 1;
                             int stoneChanged_cor = v.getId();
                             int changedPointX = stoneChanged_cor / 15;
                             int changedPointY = stoneChanged_cor % 15;
@@ -113,7 +129,7 @@ public class GameActivity extends AppCompatActivity {
                             omokSignal.setTurn(turn);
                             omokSignal.setPoint_x(changedPointX);
                             omokSignal.setPoint_y(changedPointY);
-                            omokSignal.setColor(color);
+                            omokSignal.setColor(myColor);
                             omokSignal.setPlayerId(playerID);
                             logDatabase.push().setValue(omokSignal);
                         }
@@ -125,11 +141,13 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     OmokSignalDTO omoksignal = snapshot.getValue(OmokSignalDTO.class);
+                    turn = omoksignal.getTurn() + 1;
                     int x = omoksignal.getPoint_x();
                     int y = omoksignal.getPoint_y();
                     int stoneId = (x * 15) + y;
                     int turn = omoksignal.getTurn();
                     String color = omoksignal.getColor();
+                    Log.d("stoneColor", color);
                     Log.d("stoneID", Integer.toString(stoneId));
 
                     View stoneChanged = (View) findViewById(stoneId);
@@ -139,9 +157,31 @@ public class GameActivity extends AppCompatActivity {
                     Log.d("omokArrayChanged", Arrays.deepToString(omokArray));
                     boolean isWin = checkVictory(omokArray, x, y);
                     Log.d("isWin", Boolean.toString(isWin));
-                    if (isWin == true) {
-                        Toast.makeText(getApplicationContext(), "승부가 났습니다", Toast.LENGTH_SHORT).show();
+
+                    if (turn % 2 == 0) {
+                        if(myColor == "black") {
+                            yourPart.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
+                            myPart.setBackgroundResource(0);
+                        }
+
+                        else {
+                            myPart.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
+                            yourPart.setBackgroundResource(0);
+                        }
                     }
+                    if (turn % 2 == 1) {
+                        if(myColor == "black") {
+                            myPart.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
+                            yourPart.setBackgroundResource(0);
+                        }
+                        else {
+                            yourPart.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
+                            myPart.setBackgroundResource(0);
+                        }
+                    }
+                if (isWin == true) {
+                    Toast.makeText(getApplicationContext(), "승부가 났습니다", Toast.LENGTH_SHORT).show();
+                }
                 }
 
             @Override
@@ -164,6 +204,7 @@ public class GameActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
 
@@ -185,16 +226,15 @@ public class GameActivity extends AppCompatActivity {
     private void change_omokArray(int[][] omokArray, int X, int Y, String color) {
         int changedPointX = X;
         int changedPointY = Y;
-        if (color == "black") {
-            omokArray[changedPointX][changedPointY] = 1;
-        } else if (color == "white") {
-            omokArray[changedPointX][changedPointY] = 2;
+        switch (color){
+            case "black":
+                omokArray[changedPointX][changedPointY] = 1;
+                break;
+            case "white":
+                omokArray[changedPointX][changedPointY] = 2;
+                break;
         }
     }
 
-    //    데이터베이스에 따라 오목판 변경하기 (작업중)
-    private void read_omoksignal() {
-
-    }
 
 }

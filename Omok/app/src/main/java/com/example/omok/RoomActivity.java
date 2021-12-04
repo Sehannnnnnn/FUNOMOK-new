@@ -83,6 +83,15 @@ public class RoomActivity extends AppCompatActivity {
                 }else {
                     roomList.add(roomName);
                     adapter.notifyDataSetChanged();
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference("omokRoom");
+                    myRef.child(roomName).setValue("");
+
+                    Intent intent=new Intent(getApplicationContext(), GameActivity.class);
+                    intent.putExtra("color","black");
+                    intent.putExtra("createRoomName",roomName);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });

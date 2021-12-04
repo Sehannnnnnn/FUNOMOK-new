@@ -5,12 +5,14 @@
     android:layout_height="30dp"
     android:padding="1dp"
     android:gravity="center"
+    android:duplicateParentState="true"
     >
     <ImageButton
         android:id="@+id/Img_Stone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
+        android:duplicateParentState="true"
         android:scaleType="fitCenter"
         android:background="@drawable/blackstone"/>
 </LinearLayout>

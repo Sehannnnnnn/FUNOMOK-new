@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     android:orientation="vertical">
     <LinearLayout
         android:id="@+id/container_oppose"
@@ -17,6 +18,7 @@
             android:layout_weight="1"
             android:textAlignment="center"
             android:text="30"
+            android:textSize="50dp"
             android:gravity="center_horizontal" />
         <TextView
             android:id="@+id/oppose_Message"
@@ -69,6 +71,7 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/container_my"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -109,6 +112,7 @@
             android:layout_weight="1"
             android:textAlignment="center"
             android:text="30"
+            android:textSize="50dp"
             android:gravity="center_horizontal" />
     </LinearLayout>
 
