@@ -108,11 +108,11 @@ public class RoomActivity extends AppCompatActivity {
 
 
                     myRef.child(roomName).child("roomInfo").setValue(roomInfo);
-
+                    myRef.child(roomName).child("gameLog").setValue("");
                     Intent intent=new Intent(getApplicationContext(), GameActivity.class);
                     intent.putExtra("color","black");
                     intent.putExtra("myID",userID);
-                    intent.putExtra("createRoomName",roomName);
+                    intent.putExtra("ROOMNAME",roomName);
                     startActivity(intent);
                     finish();
                 }
@@ -127,16 +127,17 @@ public class RoomActivity extends AppCompatActivity {
                 DatabaseReference myRef = database.getReference("omokRoom");
 
                 DatabaseReference PlayerW = database.getReference("omokRoom/"+roomName+"/roomInfo/playerW");
-                DatabaseReference iswating = database.getReference("omokRoom/"+roomName+"/roomInfo/waiting");
-                DatabaseReference isgaming = database.getReference("omokRoom/"+roomName+"/roomInfo/gaming");
+                DatabaseReference isWating = database.getReference("omokRoom/"+roomName+"/roomInfo/waiting");
+                DatabaseReference isGaming = database.getReference("omokRoom/"+roomName+"/roomInfo/gaming");
                 PlayerW.setValue(userID);
-                iswating.setValue(false);
-                isgaming.setValue(true);
+                isWating.setValue(false);
+                isGaming.setValue(true);
 
 
                 Intent intent=new Intent(getApplicationContext(), GameActivity.class);
                 intent.putExtra("ROOMNAME",roomName);
                 intent.putExtra("myID",userID);
+                intent.putExtra("color", "white");
                 intent.putExtra("ROOMINDEX",i);
 
                 startActivity(intent);
