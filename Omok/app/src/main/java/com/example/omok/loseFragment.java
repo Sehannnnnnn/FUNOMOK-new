@@ -1,5 +1,6 @@
 package com.example.omok;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -27,9 +28,10 @@ public class loseFragment extends Fragment implements View.OnClickListener{
 
 
     }
-
     @Override
     public void onClick(View v) {
-        v.setVisibility(View.GONE);
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        manager.beginTransaction().remove(loseFragment.this).commit();
+        manager.popBackStack();
     }
 }

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.Arrays;
@@ -40,12 +42,13 @@ import java.util.TimerTask;
 public class GameActivity extends AppCompatActivity {
     GridLayout omokstage;
     LinearLayout myPart, yourPart;
-    TextView my_ID, your_ID, my_Message, your_Message;
-    // player = "white" or "black"
+    TextView my_ID, your_ID, my_Message, your_Message, Roomname;
+    // myColor = "white" or "black"
     String myColor;
     static String myID, yourID;
     int turn;
-    DatabaseReference logDatabase, RoomDatabase;
+    DatabaseReference logDatabase, RoomDatabase,GameStarter;
+    ImageView your_profile;
     Intent intent;
     String ROOM_NAME, CREATE_ROOM_NAME;
 
@@ -80,33 +83,68 @@ public class GameActivity extends AppCompatActivity {
         your_ID = (TextView) findViewById(R.id.oppose_Id);
         my_Message = (TextView) findViewById(R.id.my_Message);
         your_Message = (TextView) findViewById(R.id.oppose_Message);
+        Roomname = (TextView) findViewById(R.id.tv_roomname);
+        your_profile = (ImageView) findViewById(R.id.oppose_Img);
 
         intent = getIntent();
-        if (intent.getStringExtra("ROOMNAME") != null) {
-            ROOM_NAME = intent.getStringExtra("ROOMNAME");
-            logDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/gamelog");
-            RoomDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/gameinfo");
-            myColor = "white";
-            yourPart.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
-            your_Message.setText("상대가 돌을 놓는 중입니다...");
-        }
-        if (intent.getStringExtra("createRoomName") != null) {
-            CREATE_ROOM_NAME = intent.getStringExtra("createRoomName");
-            logDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + CREATE_ROOM_NAME + "/gamelog");
-            RoomDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + CREATE_ROOM_NAME + "/gameinfo");
-            myColor = "black";
-            myPart.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
-            my_Message.setText("당신이 돌을 놓을 차례입니다.");
-        }
+        myID = intent.getStringExtra("myID");
+        ROOM_NAME = intent.getStringExtra("ROOMNAME");
+        my_ID.setText(myID);
+        Roomname.setText(ROOM_NAME);
+        your_profile.setVisibility(View.INVISIBLE);
+
+        logDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/gamelog");
+        RoomDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/roominfo");
+        GameStarter = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/roominfo/gaming");
 
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String email = user.getEmail();
-            myID = email.substring(0, email.indexOf("@"));
-            my_ID.setText(myID);
-        } else {
-        }
+        RoomDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                RoomInfoDTO roominfo = new RoomInfoDTO();
+                if (roominfo.isGaming()){
+                    your_profile.setVisibility(View.VISIBLE);
+                    your_Message.setText("");
+                    my_Message.setText("");
+                    if(roominfo.getPlayerB() == myID) {
+                        your_ID.setText(roominfo.getPlayerW());
+                        myColor = "black";
+                        my_Message.setText("선공입니다. 먼저 돌을 두세요.");
+                    }
+                    else if (roominfo.getPlayerW() == myID) {
+                        your_ID.setText(roominfo.getPlayerB());
+                        myColor = "white";
+                    }
+                }
+                else {
+                    your_Message.setText("상대의 입장을 기다리고 있습니다.");
+                    my_Message.setText("잠시 기다려주세요.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("firebase", "데이터불러오기에 실패함");
+            }
+        });
+
+
+//        if (intent.getStringExtra("ROOMNAME") != null) {
+//            ROOM_NAME = intent.getStringExtra("ROOMNAME");
+//            logDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/gamelog");
+//            RoomDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + ROOM_NAME + "/gameinfo");
+//            myColor = "white";
+//            yourPart.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
+//            your_Message.setText("상대가 돌을 놓는 중입니다...");
+//        }
+//        if (intent.getStringExtra("createRoomName") != null) {
+//            CREATE_ROOM_NAME = intent.getStringExtra("createRoomName");
+//            logDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + CREATE_ROOM_NAME + "/gamelog");
+//            RoomDatabase = FirebaseDatabase.getInstance().getReference("omokRoom/" + CREATE_ROOM_NAME + "/gameinfo");
+//            myColor = "black";
+//            myPart.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
+//            my_Message.setText("당신이 돌을 놓을 차례입니다.");
+//        }
 
 
 
@@ -172,32 +210,27 @@ public class GameActivity extends AppCompatActivity {
                 int x = omoksignal.getPoint_x();
                 int y = omoksignal.getPoint_y();
                 int stoneId = (x * 15) + y;
-                int turn = omoksignal.getTurn();
-                yourID = omoksignal.getPlayerId();
 
-                if(turn%2==0) {
-                    if(myID.equals(yourID)){
-                        your_ID.setText("상대1");
-                    }else{
-                        your_ID.setText(yourID);
-                    }
-
-                }
-                if(turn%2==1){
-                    //내가 백
-                    if(myID.equals(yourID)){
-                        your_ID.setText("상대1");
-                    }else{
-                        your_ID.setText(yourID);
-                    }
-                }
-
+//                yourID = omoksignal.getPlayerId();
+//
+//                if(turn%2==0) {
+//                    if(myID.equals(yourID)){
+//                        your_ID.setText("상대1");
+//                    }else{
+//                        your_ID.setText(yourID);
+//                    }
+//
+//                }
+//                if(turn%2==1){
+//                    //내가 백
+//                    if(myID.equals(yourID)){
+//                        your_ID.setText("상대1");
+//                    }else{
+//                        your_ID.setText(yourID);
+//                    }
+//                }
                 String color = omoksignal.getColor();
-                Log.d("stoneColor", color);
-                Log.d("stoneID", Integer.toString(stoneId));
-
                 View stoneChanged = (View) findViewById(stoneId);
-
                 putstone(stoneChanged, color);
                 change_omokArray(omokArray, x, y, color);
                 Log.d("omokArrayChanged", Arrays.deepToString(omokArray));
@@ -207,13 +240,17 @@ public class GameActivity extends AppCompatActivity {
                 if (isWin == true) {
                     if (yourID == myID) {
                         FragmentView(Fragment_1);
-                        my_Message.setText("경기 끝!");
-                        your_Message.setText("경기 끝!");
                     } else {
                         FragmentView(Fragment_2);
-                        my_Message.setText("경기 끝!");
-                        your_Message.setText("경기 끝!");
                     }
+                    my_Message.setText("경기 끝!");
+                    your_Message.setText("경기 끝!");
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                        }, 5000);
                 }
             }
 
@@ -303,4 +340,6 @@ public class GameActivity extends AppCompatActivity {
             your_Message.setText("");
         }
     }
+
+
 }

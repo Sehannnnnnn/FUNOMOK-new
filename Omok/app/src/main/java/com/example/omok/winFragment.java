@@ -1,5 +1,6 @@
 package com.example.omok;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -28,6 +29,8 @@ public class winFragment extends Fragment implements View.OnClickListener {
 
     }
     public void onClick(View v) {
-        v.setVisibility(View.GONE);
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        manager.beginTransaction().remove(winFragment.this).commit();
+        manager.popBackStack();
     }
 }

@@ -5,6 +5,22 @@
     android:padding="10dp"
     android:orientation="vertical">
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        >
+        <TextView
+            android:id="@+id/tv_roomname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"/>
+    <LinearLayout
         android:id="@+id/container_oppose"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -17,8 +33,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:textAlignment="center"
-            android:text="상대 1"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="17dp"
             android:gravity="center_horizontal" />
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"/>
         <LinearLayout
             android:id="@+id/box_opposeprofile"
             android:layout_width="wrap_content"
@@ -28,17 +50,24 @@
             android:gravity="center">
             <ImageView
                 android:id="@+id/oppose_Img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:src="@drawable/defaultprofile"
                 />
             <TextView
                 android:id="@+id/oppose_Id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="상대 ID"/>
+                android:layout_marginTop="10dp"
+                android:textSize="17dp"
+                android:text=""
+                android:textColor="@color/black"/>
         </LinearLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"/>
     <FrameLayout
         android:id="@+id/omokBackground"
         android:layout_width="390dp"
@@ -56,11 +85,13 @@
             android:layout_height="match_parent"
             android:columnCount="15">
 
-
         </GridLayout>
 
     </FrameLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"/>
     <LinearLayout
         android:id="@+id/container_my"
         android:layout_width="match_parent"
@@ -78,25 +109,37 @@
             android:gravity="center">
             <ImageView
                 android:id="@+id/my_Img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:src="@drawable/defaultprofile"
                 />
             <TextView
                 android:id="@+id/my_Id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="상대 ID"/>
+                android:layout_marginTop="10dp"
+                android:textSize="17dp"
+                android:textColor="@color/black"
+                android:text=""/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"/>
         <TextView
             android:id="@+id/my_Message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:textAlignment="center"
-            android:text="나 1"
+            android:text=""
+            android:textSize="17dp"
+            android:textColor="@color/black"
             android:gravity="center_horizontal" />
-
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
 
 </LinearLayout>

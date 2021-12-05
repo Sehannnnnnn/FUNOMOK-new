@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +31,7 @@ public class RoomActivity extends AppCompatActivity {
     private EditText edtRoomName;
     private Button btnCreate;
     private ListView room_list;
+    String userID;
 
 
 
@@ -39,6 +42,14 @@ public class RoomActivity extends AppCompatActivity {
         edtRoomName=(EditText) findViewById(R.id.edtRoomName);
         btnCreate=(Button) findViewById(R.id.btnCreate);
         room_list=(ListView) findViewById(R.id.room_list);
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            userID=email.substring(0,email.indexOf("@"));
+        } else {
+        }
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("omokRoom");
@@ -85,10 +96,22 @@ public class RoomActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference("omokRoom");
-                    myRef.child(roomName).setValue("");
+
+                    //RoomInfo wrapping
+                    RoomInfoDTO roomInfo = new RoomInfoDTO();
+                    roomInfo.setPlayerB(userID);
+                    roomInfo.setPlayerW("");
+                    roomInfo.setRoomName(roomName);
+                    roomInfo.setWaiting(true);
+                    roomInfo.setGaming(false);
+                    roomInfo.setFinish(false);
+
+
+                    myRef.child(roomName).child("roomInfo").setValue(roomInfo);
 
                     Intent intent=new Intent(getApplicationContext(), GameActivity.class);
                     intent.putExtra("color","black");
+                    intent.putExtra("myID",userID);
                     intent.putExtra("createRoomName",roomName);
                     startActivity(intent);
                     finish();
@@ -102,11 +125,18 @@ public class RoomActivity extends AppCompatActivity {
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference("omokRoom");
-                myRef.child(roomName).setValue("");
+
+                DatabaseReference PlayerW = database.getReference("omokRoom/"+roomName+"/roomInfo/playerW");
+                DatabaseReference iswating = database.getReference("omokRoom/"+roomName+"/roomInfo/waiting");
+                DatabaseReference isgaming = database.getReference("omokRoom/"+roomName+"/roomInfo/gaming");
+                PlayerW.setValue(userID);
+                iswating.setValue(false);
+                isgaming.setValue(true);
 
 
                 Intent intent=new Intent(getApplicationContext(), GameActivity.class);
                 intent.putExtra("ROOMNAME",roomName);
+                intent.putExtra("myID",userID);
                 intent.putExtra("ROOMINDEX",i);
 
                 startActivity(intent);
