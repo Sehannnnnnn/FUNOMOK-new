@@ -1,7 +1,9 @@
-# FUNOMOK
-신의 한수 the 오목
-![Screenshot_1638716686](https://user-images.githubusercontent.com/79133770/144752101-3c2a924d-cba7-441c-bfd3-7cbda7c28e5f.png)
-![Screenshot_1638712975](https://user-images.githubusercontent.com/79133770/144752084-b411fcab-c179-469b-88d8-b49d52d8947a.png)
+# FUNOMOK, 신의 한수 -오목-
+## ScreenShot
+![Screenshot_1638716686](https://user-images.githubusercontent.com/79133770/144752187-71d33f32-3729-48ff-b8dc-40decf44d921.png)
+
+![Screenshot_1638712975](https://user-images.githubusercontent.com/79133770/144752190-97787e4b-ea24-4d9f-94a0-858932499a0d.png)
+
 ## Overview
 
 __Play 'Gomoku' in multiplay__ </br>
