@@ -96,6 +96,7 @@ public class GameActivity extends AppCompatActivity {
         my_Message.setText("대결 방에 들어왔습니다."+"\n" +
                 "아직 돌을 두지 마세요.");
         your_Message.setText("상대의 입장을 기다리는 중입니다.");
+        your_profile.setVisibility(View.INVISIBLE);
 
 
         //오목알 크기 지정

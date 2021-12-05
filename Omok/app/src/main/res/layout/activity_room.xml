@@ -8,11 +8,14 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:gravity="center|center"
-        android:layout_weight="2">
+        android:background="#FFFFCC"
+        android:layout_weight="1">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="오목방 생성하기"/>
+            android:text="오목방 생성하기"
+            android:textColor="#000000"
+            android:textSize="20dp"/>
         <EditText
             android:id="@+id/edtRoomName"
             android:layout_width="wrap_content"
@@ -22,8 +25,14 @@
             android:id="@+id/btnCreate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="오목방 생성"/>
+            android:backgroundTint="#000000"
+            android:text="오목방 생성" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"
+        android:orientation="vertical"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,9 +42,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="만들어진 오목방"
+            android:text="실시간 오목방"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
             android:layout_marginBottom="20dp"
             android:gravity="center"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/black"
+            android:orientation="vertical"/>
         <ListView
             android:id="@+id/room_list"
             android:layout_width="match_parent"
