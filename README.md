@@ -1,4 +1,4 @@
-# FUNOMOK, 신의 한수 -오목-
+# FUNOMOK 오목 게임
 
 ## Overview
 __Play 'Gomoku' in multiplay__ </br>
